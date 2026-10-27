@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | BankVault</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            color: #101b35;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .back-link {
+            color: #3478f6;
+            text-decoration: none;
+        }
+
+        .notification-card {
+            background: white;
+            padding: 20px;
+            margin-top: 16px;
+            border-radius: 12px;
+            border: 1px solid #e3e9f2;
+        }
+
+        .empty-state {
+            background: white;
+            padding: 35px 20px;
+            margin-top: 25px;
+            border-radius: 12px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .notification-time {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .unread {
+            border-left: 4px solid #3478f6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="header">
+    <div>
+        <h1>Notifications</h1>
+        <p>You have {{ unread_count }} unread notifications.</p>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+
+        {% if unread_count > 0 %}
+        <form method="POST"
+              action="{{ url_for('mark_all_notifications_read') }}">
+
+            <button type="submit"
+                    style="padding: 10px 14px; border: none; border-radius: 8px; background: #3478f6; color: white; cursor: pointer;">
+                Mark All as Read
+            </button>
+
+        </form>
+        {% endif %}
+
+        <a class="back-link"
+           href="{{ url_for('dashboard') }}">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+</div>
+
+        {% if notifications %}
+
+            {% for notification in notifications %}
+
+                <div class="notification-card
+                    {% if not notification['is_read'] %}unread{% endif %}">
+
+                    <h3>{{ notification['title'] }}</h3>
+
+                    <p>{{ notification['message'] }}</p>
+
+                    <p class="notification-time">
+                        {{ notification['created_at'] }}
+                    </p>
+
+                    {% if not notification['is_read'] %}
+
+    <strong>Unread</strong>
+
+    <form method="POST"
+          action="{{ url_for('mark_notification_read', notification_id=notification['id']) }}"
+          style="margin-top: 12px;">
+
+        <button type="submit"
+                style="padding: 8px 12px; border: none; border-radius: 7px; background: #e8efff; color: #2458bd; cursor: pointer;">
+            Mark as Read
+        </button>
+
+    </form>
+
+{% else %}
+
+    <span>✓ Read</span>
+
+{% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-state">
+                <h2>You're all caught up!</h2>
+                <p>Your notifications will appear here.</p>
+            </div>
+
+        {% endif %}
+
+    </div>
+</body>
+</html>

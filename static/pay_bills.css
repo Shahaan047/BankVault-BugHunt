@@ -1,0 +1,216 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 35px 20px;
+    background: #f4f7fc;
+    color: #101b35;
+    font-family: Inter, Arial, sans-serif;
+}
+
+.page-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 28px;
+    color: #3478f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    color: #3478f6;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+h1 {
+    margin: 8px 0;
+    font-size: 34px;
+}
+
+.subtitle {
+    color: #73809a;
+    line-height: 1.6;
+}
+
+.bill-types {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.bill-card {
+    padding: 22px 18px;
+    background: #fff;
+    border: 1px solid #e8edf5;
+    border-radius: 16px;
+}
+
+.bill-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 24px;
+}
+
+.electricity {
+    background: #fff2d8;
+}
+
+.water {
+    background: #e0f4ff;
+}
+
+.internet {
+    background: #e9e5ff;
+}
+
+.mobile {
+    background: #e0f8ec;
+}
+
+.bill-card h3 {
+    margin: 18px 0 8px;
+    font-size: 16px;
+}
+
+.bill-card p {
+    margin: 0;
+    color: #7c879b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.payment-section {
+    max-width: 700px;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #e8edf5;
+    border-radius: 18px;
+}
+
+.section-heading {
+    margin-bottom: 25px;
+}
+
+.section-heading h2 {
+    margin: 0 0 8px;
+    font-size: 23px;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #7c879b;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #dce3ef;
+    border-radius: 9px;
+    background: #fff;
+    color: #101b35;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: 2px solid #3478f6;
+    outline-offset: 1px;
+}
+
+.pay-button {
+    width: 100%;
+    min-height: 49px;
+    border: none;
+    border-radius: 9px;
+    background: #3478f6;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pay-button:hover {
+    background: #2564d9;
+}
+
+.demo-note {
+    margin: 18px 0 0;
+    color: #7c879b;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+@media (max-width: 750px) {
+    .bill-types {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .payment-section {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 400px) {
+    .bill-types {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+}
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.flash-message {
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.flash-message.success {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+.flash-message.error {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+}

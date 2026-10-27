@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BankVault | Digital Banking</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+
+        <a href="/" class="brand">
+            <svg class="bank-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+
+                <path d="M3 10h18L12 3 3 10Z"/>
+                <path d="M5 10v9M9 10v9M15 10v9M19 10v9"/>
+                <path d="M3 21h18M3 19h18"/>
+
+            </svg>
+
+            <span>Bank<span class="brand-blue">Vault</span></span>
+        </a>
+
+       <nav class="nav-links" aria-label="Main navigation">
+
+    <a href="/" class="nav-link active">Home</a>
+
+    <a href="/services" class="nav-link">Services</a>
+
+    <a href="/about" class="nav-link">About</a>
+
+    <a href="/login" class="login-button">Login</a>
+
+</nav>
+
+    </header>
+
+
+    <!-- Hero Section -->
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <p class="tagline">
+                    YOUR MONEY. YOUR CONTROL.
+                </p>
+
+                <h1>
+                    Welcome to<br>
+                    Bank<span class="brand-blue">Vault</span>
+                </h1>
+
+                <p class="hero-description">
+                    A smarter, safer and simpler way to manage
+                    your finances.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+        <p>
+            © 2026 BankVault. Educational demonstration only.
+        </p>
+    </footer>
+
+</body>
+</html>

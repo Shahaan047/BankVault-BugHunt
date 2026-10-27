@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="/" class="brand">
+        <svg class="bank-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true">
+
+            <path d="M3 10h18L12 3 3 10Z"/>
+            <path d="M5 10v9M9 10v9M15 10v9M19 10v9"/>
+            <path d="M3 21h18M3 19h18"/>
+
+        </svg>
+
+        <span>Bank<span class="brand-blue">Vault</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/about" class="nav-link active">About</a>
+        <a href="/login" class="login-button">Login</a>
+    </nav>
+
+</header>
+
+<main class="inner-page">
+
+    <section class="page-banner">
+        <p class="section-label">ABOUT BANKVAULT</p>
+
+        <h1>Banking, reimagined.</h1>
+
+        <p>
+            A modern banking interface designed to make
+            financial information easier to understand.
+        </p>
+    </section>
+
+    <section class="about-section">
+
+        <h2>Our Purpose</h2>
+
+        <p>
+            BankVault is an educational web application
+            built from scratch to demonstrate the design
+            and functionality of a digital banking platform.
+        </p>
+
+        <p>
+            The project explores account dashboards,
+            transaction interfaces, user authentication,
+            and responsible application security testing.
+        </p>
+
+        <p>
+            All account balances and transactions shown
+            in this demonstration are fictional.
+        </p>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>© 2026 BankVault. Educational demonstration only.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Accounts | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='accounts.css') }}">
+</head>
+
+<body>
+
+    <header class="accounts-header">
+
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span class="brand-icon">B</span>
+            <span>BankVault</span>
+        </a>
+
+        <div class="header-right">
+
+            <span class="customer-name">
+                {{ full_name }}
+            </span>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="back-button">
+                Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="accounts-container">
+
+        <section class="page-heading">
+
+            <div>
+                <p class="eyebrow">YOUR BANKING</p>
+
+                <h1>My Accounts</h1>
+
+                <p class="subtitle">
+                    Manage and review your BankVault accounts.
+                </p>
+            </div>
+
+        </section>
+
+
+        <section class="balance-overview">
+
+            <div class="balance-information">
+
+                <p>Total Account Balance</p>
+
+                <h2>
+                    ₹{{ "{:,.2f}".format(total_balance) }}
+                </h2>
+
+                <span>
+                    Across {{ accounts|length }} account(s)
+                </span>
+
+            </div>
+
+            <div class="balance-icon">
+                ₹
+            </div>
+
+        </section>
+
+
+        <section class="account-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Your Accounts</h2>
+
+                    <p>
+                        View your account details and balances.
+                    </p>
+                </div>
+
+                <span class="account-count">
+                    {{ accounts|length }} Accounts
+                </span>
+
+            </div>
+
+
+            <div class="account-grid">
+
+                {% for account in accounts %}
+
+                <article class="account-card">
+
+                    <div class="account-card-top">
+
+                        <div class="account-icon
+                            {% if account.account_type == 'Savings' %}
+                                savings-icon
+                            {% else %}
+                                current-icon
+                            {% endif %}">
+
+                            {% if account.account_type == 'Savings' %}
+                                S
+                            {% else %}
+                                C
+                            {% endif %}
+
+                        </div>
+
+                        <span class="status-badge">
+                            <span class="status-dot"></span>
+                            {{ account.status }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="account-details">
+
+                        <p class="account-label">
+                            {{ account.account_type }} Account
+                        </p>
+
+                        <h3>
+                            {{ account.masked_number }}
+                        </h3>
+
+                        <p class="account-description">
+                            BankVault {{ account.account_type }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="account-card-bottom">
+
+                        <div>
+                            <p class="balance-label">
+                                Available Balance
+                            </p>
+
+                            <h2>
+                                ₹{{ "{:,.2f}".format(account.balance) }}
+                            </h2>
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% else %}
+
+                <div class="empty-state">
+
+                    <h3>No accounts found</h3>
+
+                    <p>
+                        There are currently no accounts associated
+                        with your profile.
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <section class="information-panel">
+
+            <div class="information-icon">
+                i
+            </div>
+
+            <div>
+                <h3>Account Information</h3>
+
+                <p>
+                    Account numbers are masked for display.
+                    These accounts contain fictional balances
+                    for the BankVault demonstration.
+                </p>
+            </div>
+
+        </section>
+
+
+        <footer class="accounts-footer">
+
+            <span>© 2026 BankVault</span>
+
+            <span>Demonstration banking interface</span>
+
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

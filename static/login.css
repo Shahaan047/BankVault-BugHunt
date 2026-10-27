@@ -1,0 +1,378 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --navy: #0f172a;
+    --blue: #2185ff;
+    --text: #172554;
+    --muted: #718096;
+    --border: #e2e8f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Inter', Arial, sans-serif;
+    color: var(--text);
+    background: #f4f7fc;
+
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* HEADER */
+
+.login-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 22px 5%;
+
+    background: var(--navy);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: white;
+    font-size: 31px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.bank-icon {
+    width: 39px;
+    height: 39px;
+}
+
+.brand-blue {
+    color: var(--blue);
+}
+
+.back-home {
+    color: #d7e3f5;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.back-home:hover {
+    color: #60a5fa;
+}
+
+
+/* LOGIN LAYOUT */
+
+.login-container {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 55px 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+
+    padding: 40px;
+
+    background: white;
+    border: 1px solid #e7edf6;
+    border-radius: 18px;
+
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.07);
+}
+
+
+/* LOGIN HEADING */
+
+.login-icon {
+    width: 54px;
+    height: 54px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 24px;
+
+    border-radius: 14px;
+    background: #eaf2ff;
+    color: var(--blue);
+}
+
+.login-icon svg {
+    width: 29px;
+    height: 29px;
+}
+
+.login-label {
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+}
+
+.login-card h1 {
+    color: var(--navy);
+    font-size: 27px;
+    line-height: 1.35;
+    letter-spacing: -0.8px;
+}
+
+.login-card h1 span {
+    color: var(--blue);
+}
+
+.login-description {
+    margin-top: 10px;
+    margin-bottom: 30px;
+
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 9px;
+
+    color: #263651;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    height: 49px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #ffffff;
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+    color: #a0aabd;
+}
+
+.form-group input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(33, 133, 255, 0.12);
+}
+
+
+/* PASSWORD FIELD */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 65px;
+}
+
+.show-password {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    padding: 5px;
+
+    border: none;
+    background: transparent;
+
+    color: var(--blue);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* LOGIN BUTTON */
+
+.login-submit {
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 9px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: var(--blue);
+    color: white;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.login-submit:hover {
+    background: #0869df;
+    transform: translateY(-1px);
+}
+
+.login-submit span {
+    font-size: 18px;
+}
+
+
+/* ERROR MESSAGE */
+
+.error-message {
+    margin-bottom: 22px;
+    padding: 12px 14px;
+
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+
+    background: #fff1f2;
+    color: #b91c1c;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* SECURITY NOTE */
+
+.security-note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 25px;
+    padding-top: 20px;
+
+    border-top: 1px solid #edf0f6;
+}
+
+.security-note span {
+    font-size: 13px;
+}
+
+.security-note p {
+    color: #8290a5;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+
+/* FOOTER */
+
+.login-footer {
+    padding: 22px 15px;
+
+    text-align: center;
+
+    color: #8491a5;
+    font-size: 11px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 500px) {
+
+    .login-navbar {
+        padding: 20px;
+    }
+
+    .brand {
+        font-size: 25px;
+    }
+
+    .bank-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .back-home {
+        font-size: 11px;
+    }
+
+    .login-container {
+        padding: 35px 16px;
+    }
+
+    .login-card {
+        padding: 28px 23px;
+    }
+
+    .login-card h1 {
+        font-size: 24px;
+    }
+}
+/* =====================================
+   LOGIN FLASH MESSAGES
+   ===================================== */
+
+.flash-message {
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.flash-message.error {
+    color: #b42332;
+    background: #fff0f1;
+    border: 1px solid #ffd4d8;
+}
+
+.flash-message.success {
+    color: #137a50;
+    background: #e9f9f0;
+    border: 1px solid #c6eed7;
+}

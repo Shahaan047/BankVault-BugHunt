@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Diagnostics</title></head>
+<body><h1>BankVault Diagnostics</h1><p>Intentionally exposed fictional demo data for the isolated BugHunt challenge.</p>
+<table border="1"><tr><th>Username</th><th>Name</th><th>Account number</th><th>Type</th><th>Balance</th></tr>
+{% for row in rows %}<tr><td>{{ row.username }}</td><td>{{ row.full_name }}</td><td>{{ row.account_number }}</td><td>{{ row.account_type }}</td><td>{{ row.balance }}</td></tr>{% endfor %}
+</table></body></html>

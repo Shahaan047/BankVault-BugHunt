@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile & Settings | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='profile.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="profile-header">
+
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span class="brand-icon">B</span>
+            <span>BankVault</span>
+        </a>
+
+        <a href="{{ url_for('dashboard') }}" class="back-button">
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <main class="profile-container">
+
+        <!-- PAGE HEADING -->
+        <section class="page-heading">
+
+            <p class="eyebrow">YOUR ACCOUNT</p>
+
+            <h1>Profile & Settings</h1>
+
+            <p class="subtitle">
+                Manage your personal information and account security.
+            </p>
+
+        </section>
+
+
+        <!-- PROFILE SUMMARY -->
+        <section class="profile-summary">
+
+            <div class="avatar">
+                {{ (user.full_name or user.username)[0] | upper }}
+            </div>
+
+            <div class="profile-summary-info">
+
+                <h2>{{ user.full_name | safe }}</h2> <!-- XSS B3 -->
+
+                <p>@{{ user.username }}</p>
+
+                <span class="account-status">
+                    <span class="status-dot"></span>
+                    Active Demo Account
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+        {% endwith %}
+
+
+        <!-- PROFILE INFORMATION -->
+        <section class="settings-card">
+
+            <div class="card-heading">
+
+                <div>
+                    <h2>Personal Information</h2>
+
+                    <p>
+                        Update the basic information associated with your profile.
+                    </p>
+                </div>
+
+                <span class="card-icon">👤</span>
+
+            </div>
+
+
+            <form method="POST"
+                  action="{{ url_for('profile') }}"
+                  class="profile-form">
+
+                <div class="form-group">
+
+                    <label for="full_name">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        value="{{ user.full_name }}"
+                        maxlength="100"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        value="{{ user.username }}"
+                        readonly>
+
+                    <small>
+                        Your username cannot be changed here.
+                    </small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="customer_id">Customer ID</label>
+
+                    <input
+                        type="text"
+                        id="customer_id"
+                        value="BV-CUST-{{ user.id }}"
+                        readonly>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="submit" class="primary-button">
+                        Save Profile Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- SECURITY SECTION -->
+        <section class="settings-card">
+
+            <div class="card-heading">
+
+                <div>
+                    <h2>Password & Security</h2>
+
+                    <p>
+                        Protect your BankVault demo account.
+                    </p>
+                </div>
+
+                <span class="card-icon">🔐</span>
+
+            </div>
+
+
+            <div class="security-row">
+
+                <div>
+                    <strong>Account Password</strong>
+
+                    <p>
+                        Change your password to keep your account secure.
+                    </p>
+                </div>
+
+                <a href="{{ url_for('change_password') }}"
+   class="secondary-button">
+    Change Password
+</a>
+
+            </div>
+
+
+            <div class="security-row">
+
+                <div>
+                    <strong>Session Security</strong>
+
+                    <p>
+                        Always log out when using a shared computer.
+                    </p>
+                </div>
+
+                <span class="security-label">
+                    Enabled
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEMO NOTICE -->
+        <section class="information-panel">
+
+            <span class="information-icon">i</span>
+
+            <div>
+
+                <h3>Demonstration Application</h3>
+
+                <p>
+                    BankVault is a fictional banking demonstration.
+                    Do not enter real banking credentials or sensitive
+                    personal information.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="profile-footer">
+
+            <span>© 2026 BankVault</span>
+
+            <span>Demonstration banking interface</span>
+
+        </footer>
+
+    </main>
+
+</body>
+</html>

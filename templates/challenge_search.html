@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Transaction Search Challenge</title></head>
+<body><h1>Transaction Search</h1>
+<form method="get"><label>Search transaction name <input name="q" value="{{ term }}"></label><button>Search</button></form>
+<p>Lab challenge: search results below.</p>
+<table border="1"><tr><th>ID</th><th>User ID</th><th>Name</th><th>Category</th><th>Amount</th><th>Type</th><th>Status</th></tr>
+{% for row in rows %}<tr><td>{{ row.id }}</td><td>{{ row.user_id }}</td><td>{{ row.name }}</td><td>{{ row.category }}</td><td>{{ row.amount }}</td><td>{{ row.type }}</td><td>{{ row.status }}</td></tr>{% endfor %}
+</table></body></html>

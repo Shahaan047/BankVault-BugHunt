@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transfer Money | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='transfer.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="transfer-header">
+
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span class="brand-icon">B</span>
+            <span>BankVault</span>
+        </a>
+
+        <div class="header-right">
+
+            <span class="demo-badge">DEMO ACCOUNT</span>
+
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="transfer-container">
+
+        <!-- PAGE HEADING -->
+
+        <section class="page-heading">
+
+            <p class="eyebrow">FAST & SECURE BANKING</p>
+
+            <h1>Transfer Money</h1>
+
+            <p class="subtitle">
+                Transfer funds between your BankVault accounts.
+            </p>
+
+        </section>
+
+
+        <!-- TRANSFER LAYOUT -->
+
+        <div class="transfer-layout">
+
+            <!-- TRANSFER FORM -->
+
+            <section class="transfer-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+                        <h2>Make a Transfer</h2>
+
+                        <p>
+                            Enter the details to prepare your transfer.
+                        </p>
+                    </div>
+
+                    <span class="transfer-heading-icon">↗</span>
+
+                </div>
+
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+
+                            {% for category, message in messages %}
+
+                                <div class="flash-message {{ category }}">
+                                    {{ message }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+
+                <form method="POST"
+                      action="{{ url_for('transfer_money') }}"
+                      class="transfer-form">
+
+                    <!-- SOURCE ACCOUNT -->
+
+                    <div class="form-group">
+
+                        <label for="source_account">
+                            From Account
+                        </label>
+
+                        <select id="source_account"
+                                name="source_account"
+                                required>
+
+                            <option value="">Select source account</option>
+
+                            {% for account in accounts %}
+
+                                <option value="{{ account.id }}">
+
+                                    {{ account.account_type }} Account
+                                    (•••• {{ account.account_number[-4:] }})
+                                    — ₹{{ "{:,.2f}".format(account.balance) }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                        <small>
+                            Select the account from which money will be deducted.
+                        </small>
+
+                    </div>
+
+
+                    <!-- RECIPIENT ACCOUNT -->
+
+                    <div class="form-group">
+
+                        <label for="recipient_account">
+                            Recipient Account Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="recipient_account"
+                            name="recipient_account"
+                            placeholder="Enter recipient account number"
+                            maxlength="30"
+                            autocomplete="off"
+                            required>
+
+                        <small>
+                            For the initial version, use one of your own BankVault accounts.
+                        </small>
+
+                    </div>
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="form-group">
+
+                        <label for="amount">
+                            Transfer Amount (₹)
+                        </label>
+
+                        <div class="amount-input">
+
+                            <span>₹</span>
+
+                            <input
+                                type="number"
+                                id="amount"
+                                name="amount"
+                                min="0.01"
+                                step="0.01"
+                                placeholder="0.00"
+                                required>
+
+                        </div>
+
+                        <small>
+                            The final amount will be validated by the server.
+                        </small>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label for="description">
+                            Description (Optional)
+                        </label>
+
+                        <input
+                            type="text"
+                            id="description"
+                            name="description"
+                            maxlength="100"
+                            placeholder="e.g. Personal savings">
+
+                    </div>
+
+
+                    <!-- DEMO NOTICE -->
+
+                    <div class="security-notice">
+
+                        <span class="notice-icon">i</span>
+
+                        <p>
+                            This is a demonstration banking application.
+                            No real money is transferred.
+                        </p>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button type="submit" class="transfer-button">
+                        Review & Transfer <span>→</span>
+                    </button>
+
+                    <a href="{{ url_for('dashboard') }}"
+                       class="cancel-button">
+                        Cancel
+                    </a>
+
+                </form>
+
+            </section>
+
+
+            <!-- SIDE INFORMATION -->
+
+            <aside class="transfer-sidebar">
+
+                <section class="info-card balance-card">
+
+                    <p class="info-label">YOUR BANKING</p>
+
+                    <h2>Manage your money</h2>
+
+                    <p class="info-description">
+                        Choose your source account carefully before submitting a transfer.
+                    </p>
+
+                    <div class="info-divider"></div>
+
+                    <div class="account-list">
+
+                        {% for account in accounts %}
+
+                            <div class="account-item">
+
+                                <div class="account-item-icon">
+                                    {% if account.account_type == 'Savings' %}
+                                        S
+                                    {% else %}
+                                        C
+                                    {% endif %}
+                                </div>
+
+                                <div class="account-item-details">
+
+                                    <strong>
+                                        {{ account.account_type }} Account
+                                    </strong>
+
+                                    <span>
+                                        •••• {{ account.account_number[-4:] }}
+                                    </span>
+
+                                </div>
+
+                                <div class="account-item-balance">
+
+                                    ₹{{ "{:,.2f}".format(account.balance) }}
+
+                                </div>
+
+                            </div>
+
+                        {% else %}
+
+                            <p>No accounts are available.</p>
+
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+
+
+                <section class="info-card steps-card">
+
+                    <h3>How it works</h3>
+
+                    <div class="step-item">
+
+                        <span class="step-number">1</span>
+
+                        <div>
+                            <strong>Select accounts</strong>
+
+                            <p>
+                                Choose where the money comes from and where it goes.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step-item">
+
+                        <span class="step-number">2</span>
+
+                        <div>
+                            <strong>Enter the amount</strong>
+
+                            <p>
+                                Specify the amount you want to transfer.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step-item">
+
+                        <span class="step-number">3</span>
+
+                        <div>
+                            <strong>Review the result</strong>
+
+                            <p>
+                                The server validates and processes the transfer.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </aside>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <footer class="transfer-footer">
+
+            <span>© 2026 BankVault</span>
+
+            <span>Demonstration banking interface</span>
+
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

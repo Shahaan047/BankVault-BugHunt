@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Services | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="/" class="brand">
+        <svg class="bank-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true">
+
+            <path d="M3 10h18L12 3 3 10Z"/>
+            <path d="M5 10v9M9 10v9M15 10v9M19 10v9"/>
+            <path d="M3 21h18M3 19h18"/>
+
+        </svg>
+
+        <span>Bank<span class="brand-blue">Vault</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/services" class="nav-link active">Services</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/login" class="login-button">Login</a>
+    </nav>
+
+</header>
+
+<main class="inner-page">
+
+    <section class="services-hero">
+
+    <div class="services-hero-content">
+
+        <p class="section-label">BANKING SERVICES</p>
+
+        <h1>
+            Banking That Works<br>
+            <span class="highlight">For You.</span>
+        </h1>
+
+        <p class="services-description">
+            Experience personalised banking, seamless account
+            management, and a smarter way to manage your finances.
+        </p>
+
+    </div>
+
+</section>
+
+    <section class="content-section">
+
+        <div class="service-grid">
+
+            <article class="service-card">
+                <div class="service-icon">01</div>
+                <h3>Account Management</h3>
+                <p>
+                    View your account details and
+                    monitor your demonstration balances.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">02</div>
+                <h3>Money Transfers</h3>
+                <p>
+                    Explore a transfer interface designed
+                    for simulated transactions.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon">03</div>
+                <h3>Transaction History</h3>
+                <p>
+                    Review deposits, payments, and
+                    other sample account activity.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>© 2026 BankVault. Educational demonstration only.</p>
+</footer>
+
+</body>
+</html>

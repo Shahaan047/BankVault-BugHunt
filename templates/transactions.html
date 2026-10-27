@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction History | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='transactions.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="transactions-header">
+
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span class="brand-icon">B</span>
+            <span>BankVault</span>
+        </a>
+
+        <div class="header-right">
+            <span class="demo-badge">DEMO ACCOUNT</span>
+
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                Dashboard
+            </a>
+        </div>
+
+    </header>
+
+
+    <main class="transactions-container">
+
+        <!-- PAGE HEADING -->
+
+        <section class="page-heading">
+
+            <div>
+                <p class="eyebrow">YOUR BANKING ACTIVITY</p>
+
+                <h1>Transaction History</h1>
+
+                <p class="subtitle">
+                    Review and manage your recent financial activity.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- SUMMARY CARDS -->
+
+        <section class="summary-grid">
+
+            <article class="summary-card">
+
+                <div class="summary-card-top">
+                    <span class="summary-label">Total Transactions</span>
+                    <span class="summary-icon blue-icon">↔</span>
+                </div>
+
+                <h2>{{ total_transactions }}</h2>
+
+                <p>Recorded transactions</p>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-card-top">
+                    <span class="summary-label">Money Received</span>
+                    <span class="summary-icon green-icon">↓</span>
+                </div>
+
+                <h2>₹{{ "{:,.2f}".format(total_income) }}</h2>
+
+                <p>Total credits</p>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-card-top">
+                    <span class="summary-label">Money Spent</span>
+                    <span class="summary-icon red-icon">↑</span>
+                </div>
+
+                <h2>₹{{ "{:,.2f}".format(total_expenses) }}</h2>
+
+                <p>Total debits</p>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-card-top">
+                    <span class="summary-label">Successful</span>
+                    <span class="summary-icon green-icon">✓</span>
+                </div>
+
+                <h2>{{ successful_transactions }}</h2>
+
+                <p>Successful transactions</p>
+
+            </article>
+
+        </section>
+
+
+        <!-- TRANSACTION TABLE -->
+
+        <section class="transactions-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h2>All Transactions</h2>
+
+                    <p>
+                        Search and filter your transaction records.
+                    </p>
+                </div>
+
+                <span class="transaction-count">
+                    {{ total_transactions }} Records
+                </span>
+
+            </div>
+
+
+            <!-- SEARCH AND FILTERS -->
+
+            <div class="filter-toolbar">
+
+                <div class="search-box">
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        id="transactionSearch"
+                        placeholder="Search transactions..."
+                        aria-label="Search transactions">
+                </div>
+
+
+                <select id="typeFilter" aria-label="Filter by transaction type">
+
+                    <option value="all">All Types</option>
+                    <option value="credit">Money Received</option>
+                    <option value="debit">Money Spent</option>
+
+                </select>
+
+
+                <select id="categoryFilter" aria-label="Filter by category">
+
+                    <option value="all">All Categories</option>
+
+                    {% for category in transactions | map(attribute='category') | unique | sort %}
+                        <option value="{{ category | lower }}">
+                            {{ category }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+
+
+                <button type="button" id="resetFilters" class="reset-button">
+                    Reset Filters
+                </button>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrapper">
+
+                <table id="transactionsTable">
+
+                    <thead>
+
+                        <tr>
+                            <th>Transaction</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th class="amount-column">Amount</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="transactionsBody">
+
+                        {% for transaction in transactions %}
+
+                        <tr
+    class="transaction-row"
+    data-name="{{ transaction.name | lower }}"
+    data-category="{{ transaction.category | lower }}"
+    data-type="{{ transaction.type | lower }}"
+    data-date="{{ transaction.transaction_date }}">
+
+                            <td>
+
+                                <div class="transaction-name">
+
+                                    <span class="transaction-icon
+                                        {% if transaction.type == 'credit' %}
+                                            credit-icon
+                                        {% else %}
+                                            debit-icon
+                                        {% endif %}">
+
+                                        {% if transaction.type == 'credit' %}
+                                            ↓
+                                        {% else %}
+                                            ↑
+                                        {% endif %}
+
+                                    </span>
+
+                                    <div class="transaction-information">
+
+                                        <strong>
+    <a href="{{ url_for('transaction_details', transaction_id=transaction.id) }}"
+       class="transaction-detail-link">
+        {{ transaction.name }}
+    </a>
+</strong>
+
+                                        <small>
+                                            Ref: {{ transaction.reference }}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+                                <span class="category-label">
+                                    {{ transaction.category }}
+                                </span>
+                            </td>
+
+
+                            <td class="transaction-date">
+                                {{ transaction.formatted_date }}
+                            </td>
+
+
+                            <td>
+
+                                {% if transaction.type == 'credit' %}
+
+                                    <span class="type-badge credit-badge">
+                                        Credit
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="type-badge debit-badge">
+                                        Debit
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="status-badge">
+                                    <span class="status-dot"></span>
+                                    {{ transaction.status }}
+                                </span>
+
+                            </td>
+
+
+                            <td class="amount-column
+                                {% if transaction.type == 'credit' %}
+                                    credit-amount
+                                {% else %}
+                                    debit-amount
+                                {% endif %}">
+
+                                {% if transaction.type == 'credit' %}
+                                    +
+                                {% else %}
+                                    −
+                                {% endif %}
+
+                                ₹{{ "{:,.2f}".format(transaction.amount) }}
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <h3>No transactions found</h3>
+
+                                <p>
+                                    Your transaction history will appear here.
+                                </p>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+
+                        <tr id="noFilterResults" class="hidden-row">
+                            <td colspan="6" class="empty-state">
+                                <h3>No matching transactions</h3>
+
+                                <p>
+                                    Try changing your search or filters.
+                                </p>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="table-footer">
+
+                <span>
+                    Showing demo transaction records.
+                </span>
+
+                <a href="{{ url_for('accounts') }}">
+                    View My Accounts →
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMATION NOTICE -->
+
+        <section class="information-panel">
+
+            <span class="information-icon">i</span>
+
+            <div>
+                <h3>Transaction Information</h3>
+
+                <p>
+                    This is a demonstration banking interface.
+                    All displayed transactions and balances are fictional.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="transactions-footer">
+
+            <span>© 2026 BankVault</span>
+
+            <span>Demonstration banking interface</span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- FILTER SCRIPT -->
+
+    <script src="{{ url_for('static', filename='transactions.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='login.css') }}">
+</head>
+
+<body>
+
+    <header class="login-navbar">
+
+        <a href="/" class="brand">
+            <svg class="bank-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+
+                <path d="M3 10h18L12 3 3 10Z"/>
+                <path d="M5 10v9M9 10v9M15 10v9M19 10v9"/>
+                <path d="M3 21h18M3 19h18"/>
+
+            </svg>
+
+            <span>Bank<span class="brand-blue">Vault</span></span>
+        </a>
+
+        <a href="/" class="back-home">← Back to Home</a>
+
+    </header>
+
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <div class="login-icon">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+
+                    <rect x="5" y="10" width="14" height="11" rx="2"/>
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                    <path d="M12 14v3"/>
+
+                </svg>
+            </div>
+
+            <p class="login-label">WELCOME BACK</p>
+
+            <h1>Sign in to <span>BankVault</span></h1>
+
+            <p class="login-description">
+                Access your banking interface securely.
+            </p>
+
+
+            {% if error %}
+                <div class="error-message" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+
+            <div class="flash-message {{ category }}" role="alert">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+            <form action="{{ url_for('login') }}"
+                  method="POST">
+
+                <div class="form-group">
+
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="show-password"
+                            aria-label="Show password"
+                            aria-pressed="false">
+
+                            Show
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="login-submit">
+                    Login <span>→</span>
+                </button>
+
+            </form>
+
+
+            <div class="security-note">
+                <span>🔒</span>
+                <p>Your credentials should always be kept private.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="login-footer">
+        © 2026 BankVault. Educational demonstration only.
+    </footer>
+
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const toggleButton = document.getElementById("togglePassword");
+
+        toggleButton.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            toggleButton.textContent = isPassword ? "Hide" : "Show";
+
+            toggleButton.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+
+            toggleButton.setAttribute(
+                "aria-pressed",
+                String(isPassword)
+            );
+        });
+    </script>
+
+</body>
+</html>

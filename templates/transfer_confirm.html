@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Confirm Transfer | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='transfer.css') }}">
+
+    <style>
+        .confirmation-wrapper {
+            max-width: 760px;
+            margin: 50px auto;
+            padding: 24px;
+        }
+
+        .confirmation-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 12px 35px rgba(16, 27, 53, 0.06);
+        }
+
+        .confirmation-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: #eaf1ff;
+            color: #3478f6;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-card h1 {
+            color: #101b35;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .confirmation-subtitle {
+            color: #71809b;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .transfer-amount {
+            background: #f4f7fc;
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .transfer-amount small {
+            display: block;
+            color: #71809b;
+            margin-bottom: 8px;
+        }
+
+        .transfer-amount strong {
+            font-size: 32px;
+            color: #101b35;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 17px 0;
+            border-bottom: 1px solid #edf0f6;
+        }
+
+        .detail-row span {
+            color: #71809b;
+        }
+
+        .detail-row strong {
+            color: #101b35;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .confirmation-notice {
+            margin-top: 24px;
+            padding: 15px;
+            background: #fff8e8;
+            color: #825b12;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .confirmation-actions button,
+        .confirmation-actions a {
+            flex: 1;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .confirm-button {
+            border: none;
+            background: #3478f6;
+            color: white;
+        }
+
+        .confirm-button:hover {
+            background: #2464db;
+        }
+
+        .cancel-button {
+            border: 1px solid #dce3ef;
+            background: white;
+            color: #101b35;
+        }
+
+        @media (max-width: 560px) {
+            .confirmation-wrapper {
+                margin: 20px auto;
+                padding: 14px;
+            }
+
+            .confirmation-card {
+                padding: 22px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .detail-row strong {
+                text-align: left;
+            }
+
+            .confirmation-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="confirmation-wrapper">
+
+        <section class="confirmation-card">
+
+            <div class="confirmation-icon">↗</div>
+
+            <h1>Review Your Transfer</h1>
+
+            <p class="confirmation-subtitle">
+                Please check the details below before confirming
+                your BankVault account transfer.
+            </p>
+
+            <div class="transfer-amount">
+                <small>Amount to transfer</small>
+
+                <strong>₹{{ "%.2f"|format(amount) }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>From account</span>
+
+                <strong>
+                    {{ source["account_type"] }} Account
+                    •••• {{ source["account_number"][-4:] }}
+                </strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Recipient account</span>
+
+                <strong>
+                    {{ recipient["account_type"] }} Account
+                    •••• {{ recipient["account_number"][-4:] }}
+                </strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Available balance</span>
+
+                <strong>
+                    ₹{{ "%.2f"|format(source["balance"]) }}
+                </strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Description</span>
+
+                <strong>{{ description }}</strong>
+            </div>
+
+            <div class="confirmation-notice">
+                <strong>Important:</strong>
+                Confirm only if the source account, recipient account,
+                and transfer amount are correct. This demonstration
+                uses fictional account balances and does not transfer
+                real money.
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('transfer_money') }}">
+
+                <input type="hidden"
+                       name="source_account"
+                       value="{{ source['id'] }}">
+
+                <input type="hidden"
+                       name="recipient_account"
+                       value="{{ recipient['account_number'] }}">
+
+                <input type="hidden"
+                       name="amount"
+                       value="{{ amount }}">
+
+                <input type="hidden"
+                       name="description"
+                       value="{{ description }}">
+
+                <input type="hidden"
+                       name="confirm_transfer"
+                       value="yes">
+
+                <div class="confirmation-actions">
+
+                    <a href="{{ url_for('transfer_money') }}"
+                       class="cancel-button">
+                        Cancel Transfer
+                    </a>
+
+                    <button type="submit"
+                            class="confirm-button">
+                        Confirm Transfer →
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

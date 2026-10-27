@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction Details | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f7fc;
+            font-family: Inter, Arial, sans-serif;
+            color: #101b35;
+        }
+
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e7ebf3;
+            padding: 18px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: #101b35;
+            text-decoration: none;
+        }
+
+        .brand span {
+            display: inline-flex;
+            width: 30px;
+            height: 30px;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            border-radius: 9px;
+            background: #3478f6;
+            color: #ffffff;
+        }
+
+        .topbar a.back-link {
+            text-decoration: none;
+            color: #3478f6;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .page-container {
+            max-width: 760px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+
+        .eyebrow {
+            color: #3478f6;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            margin: 0 0 8px;
+        }
+
+        .page-subtitle {
+            color: #71809b;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .details-card {
+            background: #ffffff;
+            border: 1px solid #e3e9f3;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(16, 27, 53, 0.05);
+        }
+
+        .receipt-header {
+            text-align: center;
+            padding: 32px 24px;
+            border-bottom: 1px solid #edf0f6;
+        }
+
+        .result-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .result-icon.credit {
+            background: #e4f8f0;
+            color: #079669;
+        }
+
+        .result-icon.debit {
+            background: #fff0f1;
+            color: #e14b55;
+        }
+
+        .receipt-header h2 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .amount {
+            font-size: 34px;
+            font-weight: 800;
+            margin: 12px 0;
+        }
+
+        .amount.credit {
+            color: #079669;
+        }
+
+        .amount.debit {
+            color: #e14b55;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 20px;
+            background: #e4f8f0;
+            color: #07845d;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .details-body {
+            padding: 12px 28px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 0;
+            border-bottom: 1px solid #edf0f6;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #71809b;
+            font-size: 13px;
+        }
+
+        .detail-value {
+            max-width: 60%;
+            color: #101b35;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .reference-value {
+            font-family: Consolas, monospace;
+            font-size: 12px;
+        }
+
+        .receipt-footer {
+            padding: 20px 28px;
+            background: #f8faff;
+            border-top: 1px solid #edf0f6;
+            color: #71809b;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .action-button {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            background: #3478f6;
+            color: #ffffff;
+        }
+
+        .secondary-button {
+            background: #ffffff;
+            color: #101b35;
+            border: 1px solid #dce3ef;
+        }
+
+        @media (max-width: 560px) {
+            .page-container {
+                margin: 28px auto;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+
+            .receipt-header {
+                padding: 26px 18px;
+            }
+
+            .details-body {
+                padding: 10px 18px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .detail-value {
+                max-width: 100%;
+                text-align: left;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+            }
+
+            .topbar,
+            .actions {
+                display: none;
+            }
+
+            .page-container {
+                margin: 0 auto;
+                max-width: 100%;
+            }
+
+            .details-card {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <a href="{{ url_for('dashboard') }}" class="brand">
+            <span>B</span>BankVault
+        </a>
+
+        <a href="{{ url_for('transaction_history') }}"
+           class="back-link">
+            ← Transaction History
+        </a>
+
+    </header>
+
+    <main class="page-container">
+
+        <div class="eyebrow">Your Banking Activity</div>
+
+        <h1 class="page-title">Transaction Details</h1>
+
+        <p class="page-subtitle">
+            Review your transaction information and receipt.
+        </p>
+
+        <section class="details-card">
+
+            <div class="receipt-header">
+
+                <div class="result-icon
+                    {{ 'credit' if transaction['type'] == 'credit' else 'debit' }}">
+
+                    {% if transaction['type'] == 'credit' %}
+                        ↓
+                    {% else %}
+                        ↑
+                    {% endif %}
+
+                </div>
+
+                <h2>{{ transaction['name'] }}</h2>
+
+                <div class="amount
+                    {{ 'credit' if transaction['type'] == 'credit' else 'debit' }}">
+
+                    {% if transaction['type'] == 'credit' %}
+                        +
+                    {% else %}
+                        −
+                    {% endif %}
+
+                    ₹{{ "{:,.2f}".format(transaction['amount']) }}
+
+                </div>
+
+                <span class="status-badge">
+                    ● {{ transaction['status'] }}
+                </span>
+
+            </div>
+
+            <div class="details-body">
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        Transaction Reference
+                    </span>
+
+                    <span class="detail-value reference-value">
+                        {{ transaction['reference'] or 'Not available' }}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        Transaction Date
+                    </span>
+
+                    <span class="detail-value">
+                        {{ transaction['formatted_date'] }}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        Transaction Type
+                    </span>
+
+                    <span class="detail-value">
+                        {{ transaction['type']|capitalize }}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        Category
+                    </span>
+
+                    <span class="detail-value">
+                        {{ transaction['category'] }}
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        Account
+                    </span>
+
+                    <span class="detail-value">
+
+                        {% if transaction['account_type'] %}
+                            {{ transaction['account_type'] }} Account
+                        {% else %}
+                            BankVault Account
+                        {% endif %}
+
+                        {% if transaction['account_number'] %}
+                            •••• {{ transaction['account_number'][-4:] }}
+                        {% endif %}
+
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">
+                        Transaction ID
+                    </span>
+
+                    <span class="detail-value">
+                        BV-TXN-{{ transaction['id'] }}
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="receipt-footer">
+                This receipt is generated by the BankVault demonstration
+                application. Account balances and transactions are fictional.
+                This document is not an official bank statement.
+            </div>
+
+        </section>
+
+        <div class="actions">
+
+            <a href="{{ url_for('transaction_history') }}"
+               class="action-button secondary-button">
+                ← Back to Transactions
+            </a>
+
+            <a href="#"
+               onclick="window.print(); return false;"
+               class="action-button primary-button">
+                Print / Save Receipt
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

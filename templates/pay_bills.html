@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pay Bills | BankVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='pay_bills.css') }}">
+</head>
+
+<body>
+
+    <div class="page-container">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages" role="status" aria-live="polite">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+        <a href="{{ url_for('dashboard') }}" class="back-link">
+            ← Back to Dashboard
+        </a>
+
+        <header class="page-header">
+            <div>
+                <p class="eyebrow">BANKVAULT SERVICES</p>
+                <h1>Pay Bills</h1>
+                <p class="subtitle">
+                    Pay your everyday bills securely from your BankVault account.
+                </p>
+            </div>
+        </header>
+
+        <section class="bill-types">
+
+            <div class="bill-card">
+                <div class="bill-icon electricity">⚡</div>
+                <h3>Electricity</h3>
+                <p>Electricity bill payment</p>
+            </div>
+
+            <div class="bill-card">
+                <div class="bill-icon water">💧</div>
+                <h3>Water</h3>
+                <p>Water bill payment</p>
+            </div>
+
+            <div class="bill-card">
+                <div class="bill-icon internet">📶</div>
+                <h3>Internet</h3>
+                <p>Internet bill payment</p>
+            </div>
+
+            <div class="bill-card">
+                <div class="bill-icon mobile">📱</div>
+                <h3>Mobile Recharge</h3>
+                <p>Mobile recharge payment</p>
+            </div>
+
+        </section>
+
+        <section class="payment-section">
+
+            <div class="section-heading">
+                <h2>Make a Payment</h2>
+                <p>Enter your bill details below.</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('pay_bills') }}">
+
+                <div class="form-group">
+                    <label for="bill_type">Bill Type</label>
+
+                    <select id="bill_type" name="bill_type" required>
+                        <option value="">Select a bill type</option>
+                        <option value="Electricity">Electricity</option>
+                        <option value="Water">Water</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Mobile Recharge">Mobile Recharge</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="consumer_number">
+                        Consumer / Account Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="consumer_number"
+                        name="consumer_number"
+                        placeholder="Enter consumer or mobile number"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="account_id">Pay From</label>
+
+                    <select id="account_id" name="account_id" required>
+                        <option value="">Choose your account</option>
+
+                        {% for account in accounts %}
+                        <option value="{{ account['id'] }}">
+                            {{ account['account_type'] }}
+                            — **** {{ account['account_number'][-4:] }}
+                            (₹{{ "{:,.2f}".format(account['balance']) }})
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Payment Amount (₹)</label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        placeholder="Enter amount"
+                        min="1"
+                        max="1000000"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="pay-button">
+                    Continue to Payment →
+                </button>
+
+                <p class="demo-note">
+                    Demo only: payments will be simulated within BankVault.
+                    No real utility provider is connected.
+                </p>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</body>
+</html>
